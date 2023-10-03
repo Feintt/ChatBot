@@ -12,9 +12,13 @@ defmodule Chatbot.Bot.OpenaiService do
   def call(prompts, opts \\ []) do
     %{
       "model" => "gpt-3.5-turbo",
-      "messages" => Enum.concat([
-        %{"role" => "system", "content" => default_system_prompt()},
-      ], prompts),
+      "messages" =>
+        Enum.concat(
+          [
+            %{"role" => "system", "content" => default_system_prompt()}
+          ],
+          prompts
+        ),
       "temperature" => 0.7
     }
     |> Jason.encode!()
@@ -29,7 +33,7 @@ defmodule Chatbot.Bot.OpenaiService do
       |> Enum.reverse()
 
     case messages do
-      [%{"message" => message}|_] -> message
+      [%{"message" => message} | _] -> message
       _ -> "{}"
     end
   end
@@ -40,13 +44,13 @@ defmodule Chatbot.Bot.OpenaiService do
 
   defp request(body, _opts) do
     Finch.build(:post, "https://api.openai.com/v1/chat/completions", headers(), body)
-    |> Finch.request(Tutorial.Finch)
+    |> Finch.request(Chatbot.Finch)
   end
 
   defp headers do
     [
       {"Content-Type", "application/json"},
-      {"Authorization", "Bearer #{Application.get_env(:chatbot, :open_ai_api_key)}"},
+      {"Authorization", "Bearer #{Application.get_env(:chatbot, :open_ai_api_key)}"}
     ]
   end
 end
