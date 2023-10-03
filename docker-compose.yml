@@ -11,6 +11,7 @@ services:
       - db
     environment:
       - DATABASE_URL=postgres://postgres:secret@db:5432/chatbot
+      - OPEN_AI_API_KEY=your_api_key_here
 
   db:
     image: postgres:latest
