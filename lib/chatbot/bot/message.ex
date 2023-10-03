@@ -3,8 +3,10 @@ defmodule Chatbot.Bot.Message do
   import Ecto.Changeset
 
   schema "chatbot_messages" do
+    field :content, :string
+    field :role, :string
 
-    field :conversation_id, :id
+    belongs_to :conversation, Chatbot.Bot.Conversation
 
     timestamps()
   end
@@ -12,7 +14,7 @@ defmodule Chatbot.Bot.Message do
   @doc false
   def changeset(message, attrs) do
     message
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:role, :content])
+    |> validate_required([:content])
   end
 end

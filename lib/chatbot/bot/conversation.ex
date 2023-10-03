@@ -3,7 +3,8 @@ defmodule Chatbot.Bot.Conversation do
   import Ecto.Changeset
 
   schema "chatbot_conversations" do
-
+    field :resolved_at, :naive_datetime
+    has_many :messages, Chatbot.Bot.Message, preload_order: [desc: :inserted_at]
 
     timestamps()
   end
@@ -11,7 +12,6 @@ defmodule Chatbot.Bot.Conversation do
   @doc false
   def changeset(conversation, attrs) do
     conversation
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:resolved_at])
   end
 end
