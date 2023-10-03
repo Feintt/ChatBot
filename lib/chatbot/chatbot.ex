@@ -7,6 +7,18 @@ defmodule Chatbot.Bot do
 
   alias Chatbot.Bot.Conversation
   alias Chatbot.Bot.Message
+  alias Chatbot.Bot.OpenaiService
+
+  def generate_response(conversation, messages) do
+  last_five_messages =
+    Enum.slice(messages, 0..4)
+    |> Enum.map(fn %{role: role, content: content} ->
+      %{"role" => role, "content" => content}
+    end)
+    |> Enum.reverse()
+
+  create_message(conversation, OpenaiService.call(last_five_messages))
+end
 
   def list_chatbot_conversations do
     Repo.all(Conversation)
