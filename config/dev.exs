@@ -4,7 +4,7 @@ import Config
 config :chatbot, Chatbot.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
+  hostname: "db",
   database: "chatbot_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
